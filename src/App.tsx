@@ -4,6 +4,7 @@ import ProductPage from "./pages/ProductPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import WelcomePage from "./pages/WelcomePage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -12,8 +13,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/welcome" element={<WelcomePage />} />
-        <Route path="/products" element={<ProductPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/welcome" element={<WelcomePage />} />
+          <Route path="/products" element={<ProductPage />} />
+        </Route>
       </Routes>
       <Footer />
     </>
