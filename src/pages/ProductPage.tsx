@@ -7,11 +7,16 @@ function ProductPage() {
     console.log("ProductPage körs");
 
     const [products, setProducts] = useState<Product[]>([]);
+     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         async function loadProducts() {
-            const data = await getProducts();
-            setProducts(data);
+            try{
+                const data = await getProducts();
+                 setProducts(data);
+            } catch (error: any) {
+                setError(error.message);
+            }
         }
 
         loadProducts();
@@ -20,6 +25,8 @@ function ProductPage() {
     return (
         <main>
             <h1>Produkter</h1>
+
+            {error && <p>{error}</p>}
 
             {products.map((product) => (
                 <ProductCard
