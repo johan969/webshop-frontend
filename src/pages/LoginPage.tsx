@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { login } from "../service/authService";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   //vad som skrivs i användarfältet
@@ -8,6 +9,8 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   //felmeddelande om login misslyckas
   const [error, setError] = useState("");
+  //låter komponenten skicka user till en annan route
+  const navigate = useNavigate();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,6 +21,8 @@ function LoginPage() {
         username,
         password,
       });
+
+      navigate("/welcome");
     } catch (error) {
       console.error(error);
       setError("Inloggning misslyckades");
