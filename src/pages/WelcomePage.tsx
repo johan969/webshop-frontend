@@ -2,7 +2,7 @@ import { getCurrentUser, isAuthenticated } from "../service/authService";
 import { Navigate } from "react-router-dom";
 
 function WelcomePage() {
-  if (!isAuthenticated) {
+  if (!isAuthenticated()) {
     return <Navigate to="/login" replace />;
   }
 
