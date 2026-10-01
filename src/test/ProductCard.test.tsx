@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import userEvent from "@testing-library/user-event"
+import { describe, expect, it, vi } from "vitest";
 import ProductCard from "../components/ProductCard"
 import type { Product } from "../types/product-cart";
 
 
 describe("ProductCard", () => {
-  it("visar produktinformation", () => {
     const product: Product = {
       id: 1,
       name: "Testprodukt",
@@ -14,11 +14,38 @@ describe("ProductCard", () => {
       stock: 10,
     };
 
-    render(<ProductCard product={product} />);
+    it("visar produktinformation", () => {
+        const mockAdd = vi.fn();
+
+    render(<ProductCard 
+            product={product}
+            onAdd={mockAdd}
+        />
+    );
 
     expect(screen.getByText("Testprodukt")).toBeInTheDocument();
     expect(screen.getByText("En testprodukt")).toBeInTheDocument();
     expect(screen.getByText("199 kr")).toBeInTheDocument();
     
   });
+
+  it("anropar onAdd med korrekt produkt vid klick", async () => {
+    const user = userEvent.setup();
+    const mockAdd = vi.fn();
+
+    render(
+        <ProductCard
+        product={product}
+        onAdd={mockAdd}
+        />
+    );
+
+    await user.click(
+        screen.getByRole("button", { name: /lägg i kundvagn/i })
+    );
+
+    expect(mockAdd).toHaveBeenCalledWith(product);
+
+    });
+
 });
