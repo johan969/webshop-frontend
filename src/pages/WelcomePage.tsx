@@ -1,11 +1,6 @@
-import { getCurrentUser, isAuthenticated } from "../service/authService";
-import { Navigate } from "react-router-dom";
+import { getCurrentUser } from "../service/authService";
 
 function WelcomePage() {
-  if (!isAuthenticated()) {
-    return <Navigate to="/login" replace />;
-  }
-
   //hämtar objektet (dvs user+info) som sparades vid login
   const user = getCurrentUser();
 
