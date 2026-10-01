@@ -9,3 +9,10 @@ export type Product = {
 export type CartItem = Product & {
     quantity: number;
 };
+
+export type CreateProduct = {
+    name: string;
+    description: string;
+    price: number;
+    stock: number;
+};
