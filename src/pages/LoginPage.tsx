@@ -30,42 +30,45 @@ function LoginPage() {
   }
 
   return (
-    <div>
-      <h2>Logga in</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Användarnamn</label>
-          <input
-            id="username"
-            type="email"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-            required
-          />
-        </div>
+    <main className="auth-page">
+      <div className="auth-container">
+        <h1>Logga in</h1>
 
-        <div>
-          <label htmlFor="password">Lösenord</label>
-          <input
-            id="password"
-            value={password}
-            type="password"
-            onChange={(event) => setPassword(event.target.value)}
-            required
-          />
-        </div>
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="username">* E-post</label>
+            <input
+              id="username"
+              type="email"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              required
+            />
+          </div>
 
-        <button type="submit">Logga in</button>
-      </form>
-      {/*om error får ett felmeddelande, visas det här*/}
-      {error && <p>{error}</p>}
+          <div className="form-group">
+            <label htmlFor="password">* Lösenord</label>
+            <input
+              id="password"
+              value={password}
+              type="password"
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
+          </div>
 
-      <div>
-        <p>
+          <button className="primary-button" type="submit">
+            Logga in
+          </button>
+        </form>
+        {/*om error får ett felmeddelande, visas det här*/}
+        {error && <p className="form-error">{error}</p>}
+
+        <p className="register-link">
           Inget konto? Registrera dig <Link to="/register">här</Link>
         </p>
       </div>
-    </div>
+    </main>
   );
 }
 

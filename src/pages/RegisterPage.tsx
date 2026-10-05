@@ -26,37 +26,41 @@ function RegisterPage() {
   }
 
   return (
-    <div>
-      <h2>Skapa ditt konto</h2>
+    <main className="auth-page">
+      <div className="auth-container">
+        <h1>Skapa ditt konto</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">E-post</label>
-          <input
-            id="username"
-            type="email"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-            required
-          />
-        </div>
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="username">* E-post</label>
+            <input
+              id="username"
+              type="email"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              required
+            />
+          </div>
 
-        <div>
-          <label htmlFor="password">Lösenord</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="password">* Lösenord</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
+          </div>
 
-        <button type="submit">Skapa konto</button>
-      </form>
+          <button className="primary-button" type="submit">
+            Skapa konto
+          </button>
+        </form>
 
-      {error && <p>{error}</p>}
-    </div>
+        {error && <p className="form-error">{error}</p>}
+      </div>
+    </main>
   );
 }
 

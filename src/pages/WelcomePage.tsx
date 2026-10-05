@@ -11,9 +11,11 @@ function WelcomePage() {
   }
 
   return (
-    <main>
+    <main className="welcome-page">
       <h1>Välkommen {user?.username}!</h1>
-      <p>Roll: {user?.roles.map(formatRole).join(", ")}</p>
+      <p className="welcome-role">
+        Roll: {user?.roles.map(formatRole).join(", ")}
+      </p>
     </main>
   );
 }
