@@ -1,11 +1,14 @@
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import ProductPage from "./pages/ProductPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import WelcomePage from "./pages/WelcomePage";
 import AdminProductPage from "./pages/adminProductPage";
-import ProtectedRoute, { ProtectedAdminRoute } from "./components/ProtectedRoute";
+import ProtectedRoute, {
+  ProtectedAdminRoute,
+} from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -14,6 +17,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/products" element={<ProductPage />} />

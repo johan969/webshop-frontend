@@ -1,15 +1,11 @@
 import { useState } from "react";
-import { login } from "../service/authService";
-import { useNavigate, Link } from "react-router-dom";
+import { register } from "../service/authService";
+import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
-  //vad som skrivs i användarfältet
+function RegisterPage() {
   const [username, setUsername] = useState("");
-  //vad som skrivs i lösenordsfältet
   const [password, setPassword] = useState("");
-  //felmeddelande om login misslyckas
   const [error, setError] = useState("");
-  //låter komponenten skicka user till en annan route
   const navigate = useNavigate();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -17,24 +13,25 @@ function LoginPage() {
     setError("");
 
     try {
-      await login({
+      await register({
         username,
         password,
       });
 
-      navigate("/welcome");
+      navigate("/login");
     } catch (error) {
       console.error(error);
-      setError("Inloggning misslyckades");
+      setError("Registreringen misslyckades");
     }
   }
 
   return (
     <div>
-      <h2>Logga in</h2>
+      <h2>Skapa ditt konto</h2>
+
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">Användarnamn</label>
+          <label htmlFor="username">E-post</label>
           <input
             id="username"
             type="email"
@@ -48,25 +45,19 @@ function LoginPage() {
           <label htmlFor="password">Lösenord</label>
           <input
             id="password"
-            value={password}
             type="password"
+            value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
           />
         </div>
 
-        <button type="submit">Logga in</button>
+        <button type="submit">Skapa konto</button>
       </form>
-      {/*om error får ett felmeddelande, visas det här*/}
-      {error && <p>{error}</p>}
 
-      <div>
-        <p>
-          Inget konto? Registrera dig <Link to="/register">här</Link>
-        </p>
-      </div>
+      {error && <p>{error}</p>}
     </div>
   );
 }
 
-export default LoginPage;
+export default RegisterPage;
