@@ -1,4 +1,8 @@
-import type { LoginRequest, TokenResponse } from "../types/authType";
+import type {
+  LoginRequest,
+  TokenResponse,
+  RegisterRequest,
+} from "../types/authType";
 
 // hämtar adressen till authservice
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
@@ -35,6 +39,28 @@ export async function login(request: LoginRequest): Promise<TokenResponse> {
     }),
   );
 
+  return data;
+}
+
+/* tar emot en register request, 
+anropar auth service, 
+gör objektet till json från ts, kastar fel om response ej ok */
+export async function register(
+  request: RegisterRequest,
+): Promise<TokenResponse> {
+  const response = await fetch(`${API_BASE}/auth/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Registreringen misslyckades. Status: ${response.status}`);
+  }
+
+  const data: TokenResponse = await response.json();
   return data;
 }
 

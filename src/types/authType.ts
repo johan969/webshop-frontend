@@ -11,3 +11,10 @@ export type TokenResponse = {
   username: string;
   roles: string[];
 };
+
+/*använder ej loginrequest utifall vi vill göra tillägg som namn etc.
+separat API-anrop alltså */
+export type RegisterRequest = {
+  username: string;
+  password: string;
+};
