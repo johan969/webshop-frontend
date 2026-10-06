@@ -119,6 +119,7 @@ body {
   margin: 0 0 40px;
   font-size: 32px;
   letter-spacing: 2px;
+  text-align: center;
 }
 
 .auth-form {
