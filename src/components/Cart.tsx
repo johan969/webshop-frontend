@@ -10,12 +10,16 @@ type CartProps = {
 //key har id och index för react vill ha unikt key värde, ändras i FE-16
 function Cart({ items }: CartProps) {
   return (
-    <section>
+    <section className="cart">
       <h2>Kundvagn</h2>
 
-      {items.map((item, index) => (
-        <p key={`${item.id}-${index}`}>{item.name}</p>
-      ))}
+      <div className="cart-items">
+        {items.map((item, index) => (
+          <p className="cart-item" key={`${item.id}-${index}`}>
+            {item.name}
+          </p>
+        ))}
+      </div>
     </section>
   );
 }

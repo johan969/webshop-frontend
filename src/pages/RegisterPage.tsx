@@ -1,15 +1,11 @@
 import { useState } from "react";
-import { login } from "../service/authService";
+import { register } from "../service/authService";
 import { useNavigate, Link } from "react-router-dom";
 
-function LoginPage() {
-  //vad som skrivs i användarfältet
+function RegisterPage() {
   const [username, setUsername] = useState("");
-  //vad som skrivs i lösenordsfältet
   const [password, setPassword] = useState("");
-  //felmeddelande om login misslyckas
   const [error, setError] = useState("");
-  //låter komponenten skicka user till en annan route
   const navigate = useNavigate();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -17,22 +13,22 @@ function LoginPage() {
     setError("");
 
     try {
-      await login({
+      await register({
         username,
         password,
       });
 
-      navigate("/welcome");
+      navigate("/login");
     } catch (error) {
       console.error(error);
-      setError("Inloggning misslyckades");
+      setError("Registreringen misslyckades");
     }
   }
 
   return (
     <main className="auth-page">
       <div className="auth-container">
-        <h1>Logga in</h1>
+        <h1>Skapa ditt konto</h1>
 
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-group">
@@ -50,26 +46,25 @@ function LoginPage() {
             <label htmlFor="password">* Lösenord</label>
             <input
               id="password"
-              value={password}
               type="password"
+              value={password}
               onChange={(event) => setPassword(event.target.value)}
               required
             />
           </div>
 
           <button className="primary-button" type="submit">
-            Logga in
+            Skapa konto
           </button>
         </form>
-        {/*om error får ett felmeddelande, visas det här*/}
-        {error && <p className="form-error">{error}</p>}
 
         <p className="register-link">
-          Inget konto? Registrera dig <Link to="/register">här</Link>
+          Har du redan ett konto? <Link to="/login">Logga in</Link>.
         </p>
+        {error && <p className="form-error">{error}</p>}
       </div>
     </main>
   );
 }
 
-export default LoginPage;
+export default RegisterPage;

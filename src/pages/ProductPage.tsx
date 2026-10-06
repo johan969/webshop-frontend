@@ -44,19 +44,28 @@ function ProductPage() {
   //showCart ? = om cart visas skrivs dölj annars visa kundvagn
   //showCart && = Om showcart är true rendera cart och produkterna från cart
   return (
-    <main>
-      <h1>Produkter</h1>
-      <button onClick={() => setShowCart(!showCart)}>
-        {showCart ? "Dölj kundvagn" : "Visa kundvagn"}
-      </button>
+    <main className="product-page">
+      <div className="product-page-header">
+        <div>
+          <h1>Produkter</h1>
+        </div>
 
+        <button
+          className="primary-button"
+          onClick={() => setShowCart(!showCart)}
+        >
+          {showCart ? "Dölj kundvagn" : "Visa kundvagn"}
+        </button>
+      </div>
       {showCart && <Cart items={cartItems} />}
 
       {error && <p>{error}</p>}
 
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} onAdd={addToCart} />
-      ))}
+      <div className="product-grid">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} onAdd={addToCart} />
+        ))}
+      </div>
     </main>
   );
 }
