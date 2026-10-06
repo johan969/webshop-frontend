@@ -32,6 +32,53 @@ body {
   letter-spacing: 1px;
 }
 
+.user-menu {
+  position: relative;
+}
+
+.user-name {
+  font-size: 18px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.user-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 120px;
+  margin-top: 2px;
+  display: none;
+  flex-direction: column;
+  background-color: #f4e9e3;
+  border: 1px solid #171512;
+}
+
+.user-menu:hover .user-dropdown-menu {
+  display: flex;
+}
+
+.user-dropdown-menu button,
+.user-dropdown-menu a {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: transparent;
+  color: #171512;
+  border: none;
+  text-align: right;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.user-dropdown-menu button:hover,
+.user-dropdown-menu a:hover {
+  color: #c66210;
+}
+
 .logo {
   font-size: 25px;
   font-weight: bold;
@@ -265,6 +312,20 @@ input {
 
 button {
   cursor: pointer;
+}
+
+.logout-button {
+  padding: 0;
+  background: none;
+  color: #171512;
+  border: none;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.logout-button:hover {
+  color: #c66210;
 }
 
 @media (max-width: 900px) {
