@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { register } from "../service/authService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -58,6 +58,9 @@ function RegisterPage() {
           </button>
         </form>
 
+        <p className="register-link">
+          Har du redan ett konto? <Link to="/login">Logga in</Link>.
+        </p>
         {error && <p className="form-error">{error}</p>}
       </div>
     </main>
