@@ -32,7 +32,7 @@ function Header() {
                 Logga ut
               </button>
 
-              {isAdmin && <Link to="/adminProductPage">Admin</Link>}
+              {isAdmin && <Link to="/admin">Admin</Link>}
             </div>
           </div>
         )}

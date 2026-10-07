@@ -9,6 +9,7 @@ import AdminProductPage from "./pages/adminProductPage";
 import ProtectedRoute, {
   ProtectedAdminRoute,
 } from "./components/ProtectedRoute";
+import CreateProductPage from "./pages/CreateProductPage";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
           <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route element={<ProtectedAdminRoute />}>
-            <Route path="/AdminProductPage" element={<AdminProductPage />} />
+            <Route path="/Admin" element={<AdminProductPage />} />
+            <Route path="/create-product" element={<CreateProductPage />} />
           </Route>
         </Route>
       </Routes>

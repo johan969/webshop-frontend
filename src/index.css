@@ -23,6 +23,14 @@ body {
   padding: 24px 48px;
   border-bottom: 1px solid #d9cec7;
 }
+.footer {
+  background-color: #f4e9e3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 48px;
+  border-bottom: 1px solid #d9cec7;
+}
 
 .header-actions {
   display: flex;
@@ -196,10 +204,24 @@ body {
   padding: 80px 48px;
 }
 
+.admin-product-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 48px;
+}
+
+
+
 .product-page-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-bottom: 48px;
+}
+.admin-product-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 48px;
 }
 
@@ -293,6 +315,8 @@ body {
   font-size: 16px;
   letter-spacing: 1px;
   text-transform: uppercase;
+  text-decoration: none;
+
 }
 
 .primary-button:hover {
@@ -354,4 +378,26 @@ button {
   .welcome-page h1 {
     font-size: 36px;
   }
+}
+
+
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: min(100%, 400px);
+  margin: 0 auto;
+  box-sizing: border-box;
+
+   padding: 32px;
+  background: #fdf4ef;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+}
+
+.create-product-page-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
 }
