@@ -12,7 +12,7 @@ export type CartItem = Product & {
     quantity: number;
 };
 
-export type CreateProduct = {
+export type CreateProductData = {
     name: string;
     description: string;
     price: number;

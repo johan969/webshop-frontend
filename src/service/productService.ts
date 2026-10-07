@@ -1,5 +1,5 @@
 import type { Product,  } from "../types/product-cart";
-import type { CreateProduct } from "../types/product-cart";
+import type { CreateProductData } from "../types/product-cart";
 
 
   const getAuthHeaders = (): HeadersInit => {
@@ -33,7 +33,7 @@ export async function getProducts(): Promise<Product[]> {
 }
 
 
-export async function CreateProduct(productData: CreateProduct): Promise<Product> {
+export async function CreateProduct(productData: CreateProductData): Promise<Product> {
 
    const response = await fetch(`http://localhost:8084/products`, {
     method: "POST",
