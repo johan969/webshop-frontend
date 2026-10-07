@@ -12,6 +12,8 @@ describe("ProductCard", () => {
       description: "En testprodukt",
       price: 199,
       stock: 10,
+      category: "Testkategori",
+      imageUrl: "testprodukt.jpg",
     };
 
     it("visar produktinformation", () => {
@@ -26,7 +28,8 @@ describe("ProductCard", () => {
     expect(screen.getByText("Testprodukt")).toBeInTheDocument();
     expect(screen.getByText("En testprodukt")).toBeInTheDocument();
     expect(screen.getByText("199 kr")).toBeInTheDocument();
-    
+    expect(screen.getByText("Testkategori")).toBeInTheDocument();
+    expect(screen.getByAltText("Testprodukt")).toBeInTheDocument();
   });
 
   it("anropar onAdd med korrekt produkt vid klick", async () => {
