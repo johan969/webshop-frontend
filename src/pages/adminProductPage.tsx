@@ -43,6 +43,8 @@ function CreateProductForm() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState<number | "">("");
   const [stock, setStock] = useState<number | "">("");
+  const [category, setCategory] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   // Vi vill inte ladda om sidan när vi skapar en ny produkt
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,6 +56,8 @@ function CreateProductForm() {
       description,
       price: Number(price),
       stock: Number(stock),
+      category,
+      imageUrl
     });
   };
 
@@ -94,7 +98,20 @@ function CreateProductForm() {
         }
         required
       />
-
+          <input
+        type="text"
+        placeholder="Kategori"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="ImageUrl"
+        value={imageUrl}
+        onChange={(e) => setImageUrl(e.target.value)}
+        required
+      />
       <button type="submit">Spara produkt</button>
     </form>
   );

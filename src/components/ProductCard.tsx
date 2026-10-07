@@ -9,12 +9,13 @@ type ProductCardProps = {
 function ProductCard({ product, onAdd }: ProductCardProps) {
   return (
     <article className="product-card">
-      <div className="product-image">IMAGE PLACEHOLDER</div>
+      <img src={product.imageUrl} alt={product.name} className="product-image" />
 
       <div className="product-info">
         <div>
           <h2>{product.name}</h2>
           <p>{product.description}</p>
+          <p>{product.category}</p>
         </div>
 
         <strong>{product.price} kr</strong>
