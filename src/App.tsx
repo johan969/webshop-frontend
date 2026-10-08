@@ -10,6 +10,7 @@ import ProtectedRoute, {
   ProtectedAdminRoute,
 } from "./components/ProtectedRoute";
 import CreateProductPage from "./pages/CreateProductPage";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+
         <Route element={<ProtectedRoute />}>
           <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/products" element={<ProductPage />} />
@@ -27,6 +29,7 @@ function App() {
             <Route path="/create-product" element={<CreateProductPage />} />
           </Route>
         </Route>
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />
     </>
