@@ -276,6 +276,7 @@ body {
   white-space: nowrap;
   font-size: 16px;
   font-weight: bold;
+   min-height: 4.8em;
 }
 
 .cart {
@@ -427,4 +428,13 @@ button {
   display: flex;
   justify-content: center;
   margin-bottom: 48px;
+}
+
+.category-select{
+  padding: 8px;
+  background-color: transparent;
+  border: 1px solid #171512;
+  color: #171512;
+  outline: none;
+  margin-bottom: 12px;
 }
