@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CreateProductData } from "../types/product-cart";
-import { categories } from "../types/category";
+import { categories, type Category } from "../types/category";
 
 type ProductFormProps = {
   onSubmit: (product: CreateProductData) => void;
@@ -13,12 +13,17 @@ export default function ProductForm({ onSubmit }: ProductFormProps) {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState<number | "">("");
   const [stock, setStock] = useState<number | "">("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState<Category | "">("");
   const [imageUrl, setImageUrl] = useState("");
 
   // Vi vill inte ladda om sidan när vi skapar en ny produkt
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    //om category är tomt, returnera och gör inget
+    if (!category) {
+      return;
+    }
 
     //Vi anropar CreateProduct i productService
     await onSubmit({
@@ -26,7 +31,7 @@ export default function ProductForm({ onSubmit }: ProductFormProps) {
       description,
       price: Number(price),
       stock: Number(stock),
-      category: category(category),
+      category,
       imageUrl,
     });
   };
@@ -68,14 +73,15 @@ export default function ProductForm({ onSubmit }: ProductFormProps) {
         }
         required
       />
-      
-        <input
+
+      <input
         type="text"
         placeholder="ImageUrl"
         value={imageUrl}
         onChange={(e) => setImageUrl(e.target.value)}
         required
       />
+
       <select
         value={category}
         onChange={(event) => {
@@ -96,9 +102,6 @@ export default function ProductForm({ onSubmit }: ProductFormProps) {
           </option>
         ))}
       </select>
-
-   
-    
 
       <button className="primary-button" type="submit">
         Spara produkt
