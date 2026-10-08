@@ -276,7 +276,7 @@ body {
   white-space: nowrap;
   font-size: 16px;
   font-weight: bold;
-   min-height: 4.8em;
+  min-height: 4.8em;
 }
 
 .cart {
@@ -300,6 +300,13 @@ body {
   margin: 0;
   padding: 16px 0;
   border-top: 1px solid #d9cec7;
+}
+
+.no-products {
+  text-align: center;
+  font-size: 16px;
+  color: #6e6863;
+  margin-top: 40px;
 }
 
 .product-card .primary-button {
@@ -430,7 +437,7 @@ button {
   margin-bottom: 48px;
 }
 
-.category-select{
+.category-select {
   padding: 8px;
   background-color: transparent;
   border: 1px solid #171512;
