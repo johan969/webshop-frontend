@@ -11,7 +11,16 @@ function ProductPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
   //innehåller vagnens produkter + för att ändra. innehåller en lista av items
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  {
+    /* getItem hämtar tidigare sparad kundvagn */
+  }
+  {
+    /* JSON.parse() omvandlar sparad text till lista */
+  }
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const savedCart = sessionStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
   //bestämmer om kundvagn visas
   const [showCart, setShowCart] = useState(false);
 
@@ -28,6 +37,10 @@ function ProductPage() {
       : products.filter((product) => product.category === selectedCategory);
 
   useEffect(() => {
+    sessionStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  useEffect(() => {
     async function loadProducts() {
       try {
         const data = await getProducts();
@@ -41,6 +54,17 @@ function ProductPage() {
   }, []);
 
   function addToCart(product: Product) {
+    const existingItem = cartItems.find((item) => item.id === product.id);
+    if (existingItem) {
+      setCartItems((currentItems) =>
+        currentItems.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        ),
+      );
+      return;
+    }
     const cartItem: CartItem = {
       ...product, //kopierar all produktinfo
       quantity: 1,
