@@ -313,6 +313,38 @@ body {
   width: 100%;
 }
 
+.page-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 60px 24px;
+  text-align: center;
+}
+
+.page-not-found h1 {
+  margin: 0;
+  font-size: 72px;
+  letter-spacing: 4px;
+}
+
+.page-not-found h2 {
+  margin: 16px 0;
+  font-size: 24px;
+  letter-spacing: 2px;
+}
+
+.page-not-found p {
+  margin-bottom: 32px;
+  color: #6e6863;
+}
+
+.page-not-found .primary-button {
+  display: inline-block;
+  text-decoration: none;
+}
+
 .primary-button {
   padding: 14px 20px;
   background-color: #171512;
