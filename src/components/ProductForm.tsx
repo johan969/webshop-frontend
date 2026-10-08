@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { CreateProductData } from "../types/product-cart";
+import { categories } from "../types/category";
 
 type ProductFormProps = {
-    onSubmit: (product: CreateProductData) => void;
+  onSubmit: (product: CreateProductData) => void;
 };
 
 //Funktion för att skapa produkt
@@ -25,9 +26,8 @@ export default function ProductForm({ onSubmit }: ProductFormProps) {
       description,
       price: Number(price),
       stock: Number(stock),
-       category,
-      imageUrl
-      
+      category: category(category),
+      imageUrl,
     });
   };
 
@@ -68,20 +68,37 @@ export default function ProductForm({ onSubmit }: ProductFormProps) {
         }
         required
       />
-            <input
-        type="text"
-        placeholder="Kategori"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        required
-      />
-      <input
+      
+        <input
         type="text"
         placeholder="ImageUrl"
         value={imageUrl}
         onChange={(e) => setImageUrl(e.target.value)}
         required
       />
+      <select
+        value={category}
+        onChange={(event) => {
+          const selectedCategory = categories.find(
+            (option) => option === event.target.value,
+          );
+          setCategory(selectedCategory ?? "");
+        }}
+        required
+      >
+        <option value="" disabled>
+          Välj kategori
+        </option>
+
+        {categories.map((categoryOption) => (
+          <option key={categoryOption} value={categoryOption}>
+            {categoryOption}
+          </option>
+        ))}
+      </select>
+
+   
+    
 
       <button className="primary-button" type="submit">
         Spara produkt

@@ -3,6 +3,7 @@ import type { CartItem, Product } from "../types/product-cart";
 import { getProducts } from "../service/productService";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
+import { categories, type Category } from "../types/category";
 
 function ProductPage() {
   console.log("ProductPage körs");
@@ -13,6 +14,18 @@ function ProductPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   //bestämmer om kundvagn visas
   const [showCart, setShowCart] = useState(false);
+
+
+  //Sätter default category till ALL, så att alla produkter visas vid första renderingen
+  const [selectedCategory, setSelectedCategory] = useState("ALL");
+
+  //Lägger till ALL i listan av kategorier
+  const categoryOptions = ["ALL", ...categories];
+
+  const filteredProducts =
+    selectedCategory === "ALL"
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
 
   useEffect(() => {
     async function loadProducts() {
@@ -57,12 +70,24 @@ function ProductPage() {
           {showCart ? "Dölj kundvagn" : "Visa kundvagn"}
         </button>
       </div>
+
+      <select className="category-select"
+        value={selectedCategory}
+        onChange={(event) => setSelectedCategory(event.target.value)}
+      >
+        {categoryOptions.map((category) => (
+          <option key={category} value={category}>
+            {category}
+          </option>
+        ))}
+      </select>
+
       {showCart && <Cart items={cartItems} />}
 
       {error && <p>{error}</p>}
 
       <div className="product-grid">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} onAdd={addToCart} />
         ))}
       </div>
