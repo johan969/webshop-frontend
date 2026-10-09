@@ -4,7 +4,7 @@ import { getProducts } from "../service/productService";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
 import { createOrder } from "../service/orderService";
-import { categories, type Category } from "../types/category";
+import { categories, } from "../types/category";
 
 function ProductPage() {
   console.log("ProductPage körs");
@@ -188,8 +188,6 @@ function ProductPage() {
         ))}
       </select>
 
-      {showCart && <Cart items={cartItems} />}
-
       {/* Funktionerna skickas till Cart som props */}
       {showCart && (
         <Cart
@@ -199,12 +197,7 @@ function ProductPage() {
           onCheckout={handleCheckout}
         />
       )}
-      {error && <p>{error}</p>}
-      <div className="product-grid">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} onAdd={addToCart} />
-        ))}
-      </div>
+  
       {renderFilteredProducts()}
     </main>
   );
