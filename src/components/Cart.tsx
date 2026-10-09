@@ -3,12 +3,15 @@ import type { CartItem } from "../types/product-cart";
 //cart måste få en prop som heter items vilket måste vara en CartItem lista
 type CartProps = {
   items: CartItem[];
+  onIncrease: (productId: number) => void;
+  onDecrease: (productId: number) => void;
+  onCheckout: () => void;
 };
 
 //{items} så att listan kan användas
 //p taggen går igenom kundvagnen,visar produktsnamn
 //key har id och index för react vill ha unikt key värde, ändras i FE-16
-function Cart({ items }: CartProps) {
+function Cart({ items, onCheckout }: CartProps) {
   const totalPrice = items.reduce(
     (total, item) => total + item.price * item.quantity,
     0,
@@ -29,6 +32,7 @@ function Cart({ items }: CartProps) {
         ))}
       </div>
       <p>Totalt: {totalPrice} kr</p>
+      <button onClick={onCheckout}>Skicka beställning</button>
     </section>
   );
 }
