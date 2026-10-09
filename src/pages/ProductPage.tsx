@@ -197,7 +197,7 @@ function ProductPage() {
           onCheckout={handleCheckout}
         />
       )}
-  
+
       {renderFilteredProducts()}
     </main>
   );
