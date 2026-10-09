@@ -199,12 +199,7 @@ function ProductPage() {
           onCheckout={handleCheckout}
         />
       )}
-      {error && <p>{error}</p>}
-      <div className="product-grid">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} onAdd={addToCart} />
-        ))}
-      </div>
+
       {renderFilteredProducts()}
     </main>
   );
