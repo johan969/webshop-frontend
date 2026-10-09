@@ -3,6 +3,7 @@ import type { CartItem, Product } from "../types/product-cart";
 import { getProducts } from "../service/productService";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
+import { createOrder } from "../service/orderService";
 import { categories, type Category } from "../types/category";
 
 function ProductPage() {
@@ -103,6 +104,54 @@ function ProductPage() {
     );
   }
 
+  function increaseQuantity(productId: number) {
+    setCartItems((currentItems) =>
+      currentItems.map((item) =>
+        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
+    );
+  }
+
+  function decreaseQuantity(productId: number) {
+    setCartItems((currentItems) =>
+      currentItems
+        .map((item) =>
+          item.id === productId
+            ? { ...item, quantity: item.quantity - 1 }
+            : item,
+        )
+        .filter((item) => item.quantity > 0),
+    );
+  }
+
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) {
+      alert("Kundvagnen är tom.");
+      return;
+    }
+
+    // Skapa ny order
+    const orderRequest = {
+      items: cartItems.map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+      })),
+    };
+
+    // Skickar beställningen till backend
+    try {
+      await createOrder(orderRequest);
+
+      // Tömmer kundvagnen om beställningen lyckas
+      setCartItems([]);
+      sessionStorage.removeItem("cart");
+
+      alert("Ordern har skapats.");
+    } catch {
+      alert("Något gick fel när ordern skulle skapas.");
+    }
+  };
+
   //!showCart byter till det motsatta, så om cart är false så ska den bli true on click
   //showCart ? = om cart visas skrivs dölj annars visa kundvagn
   //showCart && = Om showcart är true rendera cart och produkterna från cart
@@ -141,7 +190,21 @@ function ProductPage() {
 
       {showCart && <Cart items={cartItems} />}
 
+      {/* Funktionerna skickas till Cart som props */}
+      {showCart && (
+        <Cart
+          items={cartItems}
+          onIncrease={increaseQuantity}
+          onDecrease={decreaseQuantity}
+          onCheckout={handleCheckout}
+        />
+      )}
       {error && <p>{error}</p>}
+      <div className="product-grid">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} onAdd={addToCart} />
+        ))}
+      </div>
       {renderFilteredProducts()}
     </main>
   );
