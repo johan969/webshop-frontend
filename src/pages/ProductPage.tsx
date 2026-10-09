@@ -4,6 +4,7 @@ import { getProducts } from "../service/productService";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
 import { createOrder } from "../service/orderService";
+import { categories, type Category } from "../types/category";
 
 function ProductPage() {
   console.log("ProductPage körs");
@@ -23,6 +24,31 @@ function ProductPage() {
   });
   //bestämmer om kundvagn visas
   const [showCart, setShowCart] = useState(false);
+
+  //Sätter default category till ALL, så att alla produkter visas vid första renderingen
+  const [selectedCategory, setSelectedCategory] = useState("ALL");
+  //innehåller texten som användaren skriver i sökfältet
+  const [searchTerm, setSearchTerm] = useState("");
+
+  //Lägger till ALL i listan av kategorier
+  const categoryOptions = ["ALL", ...categories];
+
+  //trim för att ta bort extra mellanslag och gör till små bokstäver för att kunna jämföra enkelt
+  const search = searchTerm.trim().toLowerCase();
+
+  const filteredProducts = products.filter((product) => {
+    //filtrerar genom alla produkter för att se om det ska visas
+    const matchCategory =
+      selectedCategory === "ALL" || product.category === selectedCategory;
+
+    //kollar om sökordet finns i produktens namn eller beskrivning
+    const matchSearch =
+      product.name.toLowerCase().includes(search) ||
+      product.description.toLowerCase().includes(search);
+
+    //returnerar båda filter
+    return matchCategory && matchSearch;
+  });
 
   useEffect(() => {
     sessionStorage.setItem("cart", JSON.stringify(cartItems));
@@ -60,9 +86,22 @@ function ProductPage() {
 
     //tar alla produkter som finns i kundvagn och lägger till den nya sist
     setCartItems((currentItems) => [...currentItems, cartItem]);
+  }
 
-    //alert för bekräftelse av senaste tillägg i kundvagn
-    alert(`${product.name} har lagts i kundvagnen`);
+  function renderFilteredProducts() {
+    if (error) {
+      return null;
+    }
+    if (filteredProducts.length === 0) {
+      return <p>Inga produkter matchade din sökning</p>;
+    }
+    return (
+      <div className="product-grid">
+        {filteredProducts.map((product) => (
+          <ProductCard key={product.id} product={product} onAdd={addToCart} />
+        ))}
+      </div>
+    );
   }
 
   function increaseQuantity(productId: number) {
@@ -131,6 +170,26 @@ function ProductPage() {
         </button>
       </div>
 
+      <input
+        type="search"
+        placeholder="Sök produkter.."
+        value={searchTerm}
+        onChange={(event) => setSearchTerm(event.target.value)}
+      />
+      <select
+        className="category-select"
+        value={selectedCategory}
+        onChange={(event) => setSelectedCategory(event.target.value)}
+      >
+        {categoryOptions.map((category) => (
+          <option key={category} value={category}>
+            {category}
+          </option>
+        ))}
+      </select>
+
+      {showCart && <Cart items={cartItems} />}
+
       {/* Funktionerna skickas till Cart som props */}
       {showCart && (
         <Cart
@@ -146,6 +205,7 @@ function ProductPage() {
           <ProductCard key={product.id} product={product} onAdd={addToCart} />
         ))}
       </div>
+      {renderFilteredProducts()}
     </main>
   );
 }

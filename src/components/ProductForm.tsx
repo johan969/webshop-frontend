@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { CreateProductData } from "../types/product-cart";
+import { categories, type Category } from "../types/category";
 
 type ProductFormProps = {
-    onSubmit: (product: CreateProductData) => void;
+  onSubmit: (product: CreateProductData) => void;
 };
 
 //Funktion för att skapa produkt
@@ -12,12 +13,17 @@ export default function ProductForm({ onSubmit }: ProductFormProps) {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState<number | "">("");
   const [stock, setStock] = useState<number | "">("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState<Category | "">("");
   const [imageUrl, setImageUrl] = useState("");
 
   // Vi vill inte ladda om sidan när vi skapar en ny produkt
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    //om category är tomt, returnera och gör inget
+    if (!category) {
+      return;
+    }
 
     //Vi anropar CreateProduct i productService
     await onSubmit({
@@ -25,9 +31,8 @@ export default function ProductForm({ onSubmit }: ProductFormProps) {
       description,
       price: Number(price),
       stock: Number(stock),
-       category,
-      imageUrl
-      
+      category,
+      imageUrl,
     });
   };
 
@@ -68,13 +73,7 @@ export default function ProductForm({ onSubmit }: ProductFormProps) {
         }
         required
       />
-            <input
-        type="text"
-        placeholder="Kategori"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        required
-      />
+
       <input
         type="text"
         placeholder="ImageUrl"
@@ -82,6 +81,27 @@ export default function ProductForm({ onSubmit }: ProductFormProps) {
         onChange={(e) => setImageUrl(e.target.value)}
         required
       />
+
+      <select
+        value={category}
+        onChange={(event) => {
+          const selectedCategory = categories.find(
+            (option) => option === event.target.value,
+          );
+          setCategory(selectedCategory ?? "");
+        }}
+        required
+      >
+        <option value="" disabled>
+          Välj kategori
+        </option>
+
+        {categories.map((categoryOption) => (
+          <option key={categoryOption} value={categoryOption}>
+            {categoryOption}
+          </option>
+        ))}
+      </select>
 
       <button className="primary-button" type="submit">
         Spara produkt
