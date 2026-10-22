@@ -5,8 +5,7 @@ export type LoginRequest = {
 };
 
 /*måste matcha dto från backend*/
-export type TokenResponse = {
-  accessToken: string;
+export type User = {
   expiresIn: number;
   username: string;
   roles: string[];
@@ -18,3 +17,4 @@ export type RegisterRequest = {
   username: string;
   password: string;
 };
+

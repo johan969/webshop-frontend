@@ -1,6 +1,6 @@
 import type {
   LoginRequest,
-  TokenResponse,
+  User,
   RegisterRequest,
 } from "../types/authType";
 
@@ -13,7 +13,7 @@ const USER_KEY = "user";
 
 
 /* async då function behöver vänta på svar från backend */
-export async function login(request: LoginRequest): Promise<void> {
+export async function login(request: LoginRequest): Promise<User> {
   const response = await fetch(`${API_BASE}/auth/login`, {
     method: "POST",
 
@@ -31,7 +31,7 @@ credentials: "include",
     throw new Error(`Inloggningen misslyckades. Status: ${response.status}`);
   }
 
-  const data: TokenResponse = await response.json();
+  const data: User = await response.json();
 
   sessionStorage.setItem(
     USER_KEY,
@@ -42,6 +42,7 @@ credentials: "include",
     }),
   );
 
+  return data;
 }
 
 
@@ -53,7 +54,7 @@ anropar auth service,
 gör objektet till json från ts, kastar fel om response ej ok */
 export async function register(
   request: RegisterRequest,
-): Promise<TokenResponse> {
+): Promise<User> {
   const response = await fetch(`${API_BASE}/auth/register`, {
     method: "POST",
     headers: {
@@ -66,7 +67,7 @@ export async function register(
     throw new Error(`Registreringen misslyckades. Status: ${response.status}`);
   }
 
-  const data: TokenResponse = await response.json();
+  const data: User = await response.json();
   return data;
 }
 
