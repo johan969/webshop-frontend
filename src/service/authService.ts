@@ -6,16 +6,23 @@ import type {
 
 // hämtar adressen till authservice
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
-const TOKEN_KEY = "accessToken";
 const USER_KEY = "user";
 
+
+
+
+
 /* async då function behöver vänta på svar från backend */
-export async function login(request: LoginRequest): Promise<TokenResponse> {
+export async function login(request: LoginRequest): Promise<void> {
   const response = await fetch(`${API_BASE}/auth/login`, {
     method: "POST",
+
+credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
+
+
     body: JSON.stringify(request),
   });
 
@@ -26,10 +33,6 @@ export async function login(request: LoginRequest): Promise<TokenResponse> {
 
   const data: TokenResponse = await response.json();
 
-  //sparar jwt token för kommande autentiserade anrop
-  sessionStorage.setItem(TOKEN_KEY, data.accessToken);
-
-  //sparar övrig user data från auth service
   sessionStorage.setItem(
     USER_KEY,
     JSON.stringify({
@@ -39,8 +42,11 @@ export async function login(request: LoginRequest): Promise<TokenResponse> {
     }),
   );
 
-  return data;
 }
+
+
+
+
 
 /* tar emot en register request, 
 anropar auth service, 
@@ -64,10 +70,7 @@ export async function register(
   return data;
 }
 
-//kan hämta JWT senare
-export function getToken() {
-  return sessionStorage.getItem(TOKEN_KEY);
-}
+
 
 //hämtar användardata från sessionstorage
 export function getCurrentUser() {
@@ -77,13 +80,25 @@ export function getCurrentUser() {
   return raw ? JSON.parse(raw) : null;
 }
 
+//kontrollerar om användaren är inloggad
+export function isAuthenticated() {
+  return getCurrentUser() !== null;
+}
+
+
+
+
 //loggar ut användaren genom att ta bort sparad auth data
-export function logout() {
-  sessionStorage.removeItem(TOKEN_KEY);
+export async function logout() {
+  const response = await fetch(`${API_BASE}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+ 
+  if (!response.ok) {
+    throw new Error(`Utloggningen misslyckades`);
+  }
+ 
   sessionStorage.removeItem(USER_KEY);
 }
 
-//kontrollerar om användaren är inloggad
-export function isAuthenticated() {
-  return getToken() !== null;
-}

@@ -1,19 +1,14 @@
 import type { Product } from "../types/product-cart";
 import type { CreateProductData } from "../types/product-cart";
 
-const getAuthHeaders = (): HeadersInit => {
-  const token = sessionStorage.getItem("accessToken");
-  return {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  };
-};
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
 
 export async function getProducts(): Promise<Product[]> {
-  const response = await fetch("http://localhost:9003/gateway/products", {
+  const response = await fetch(`${API_BASE}/products`, {
     method: "GET",
-    headers: getAuthHeaders(),
+
+    credentials: "include"
   });
 
   if (!response.ok) {
@@ -29,9 +24,9 @@ export async function getProducts(): Promise<Product[]> {
 }
 
 export async function getProductById(id: number): Promise<Product> {
-  const response = await fetch(`http://localhost:9003/gateway/products/${id}`, {
+  const response = await fetch(`${API_BASE}/products/${id}`, {
     method: "GET",
-    headers: getAuthHeaders(),
+  credentials: "include"
   });
 
   if (!response.ok) {
@@ -54,9 +49,13 @@ export async function getProductById(id: number): Promise<Product> {
 export async function createProduct(
   productData: CreateProductData,
 ): Promise<Product> {
-  const response = await fetch("http://localhost:9003/gateway/products", {
+  const response = await fetch(`${API_BASE}/products`, {
     method: "POST",
-    headers: getAuthHeaders(),
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
     body: JSON.stringify(productData),
   });
 
