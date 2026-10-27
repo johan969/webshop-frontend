@@ -17,7 +17,53 @@ import type { CartItem, Product } from "./types/product-cart";
 import { createOrder } from "./service/orderService";
 import HomePage from "./pages/HomePage";
 
+
+
+
+
+import { getSession } from "./service/authService";
+import type { User } from "./types/authType";
+
+
+
+
+
 function App() {
+
+
+//hämtar användardata från backend, returnerar null om ej inloggad, 
+const [user, setUser] = useState<User | null>(null);
+
+// sätter checkingSession till true för att indikera att vi kollar om användaren är inloggad
+const [checkingSession, setCheckingSession] =
+useState(true);
+
+
+//körs när App startar, sätter användaren till user eller till null vill fel, sedan sätts checkingSession till false så att appen kan renderas
+useEffect(() => {
+
+
+  async function restoreSession() {
+    try {
+    const sessionUser = await getSession();
+    setUser(sessionUser);
+
+  } catch {
+    setUser(null);
+  }finally {
+    setCheckingSession(false);
+  }
+}
+  
+  restoreSession();
+}, []);
+
+
+  
+
+
+
+
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const savedCart = sessionStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
@@ -120,12 +166,18 @@ function App() {
 
   const { pathname } = useLocation();
 
+  if (checkingSession) {
+  return <p>Kontrollerar inloggning...</p>;
+  }
+
   return (
     //behållare för appens sidor med route path till login
     <>
       {/*om path bara är "/" (dvs startsidan) visas inte headern */}
       {pathname !== "/" && (
         <Header
+          user={user}
+          setUser={setUser}
           cartItems={cartItems}
           onIncrease={increaseQuantity}
           onDecrease={decreaseQuantity}
@@ -138,7 +190,8 @@ function App() {
         </div>
       )}
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
+        
+        <Route path="/login" element={<LoginPage setUser={setUser} />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/" element={<HomePage />} />
 
