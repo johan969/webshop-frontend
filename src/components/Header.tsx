@@ -7,8 +7,12 @@ import {
 import type { CartItem } from "../types/product-cart";
 import CartDropdown from "./CartDropdown";
 import { useState } from "react";
+import type { User } from "../types/authType";
 
 type HeaderProps = {
+
+  user: User | null;
+  setUser: (user: User | null) => void;
   cartItems: CartItem[];
   onIncrease: (productId: number) => void;
   onDecrease: (productId: number) => void;
@@ -16,6 +20,7 @@ type HeaderProps = {
 };
 
 function Header({
+  setUser,
   cartItems,
   onIncrease,
   onDecrease,
@@ -27,8 +32,9 @@ function Header({
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const [mobileMenu, setMobileMenu] = useState(false);
 
-  function logoutHandler() {
+ async function logoutHandler() {
     logout();
+    setUser(null);
     navigate("/login");
   }
   return (

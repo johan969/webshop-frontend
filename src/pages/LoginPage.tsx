@@ -1,8 +1,17 @@
 import { useState } from "react";
 import { login } from "../service/authService";
 import { useNavigate, Link } from "react-router-dom";
+import type { User } from "../types/authType";
 
-function LoginPage() {
+
+
+// skapar en typ för props som LoginPage tar emot, i detta fall en funktion som sätter användaren
+type LoginPageProps = {
+  setUser: (user: User) => void;
+}
+
+//komponent som renderar login sidan, tar emot setUser som prop
+function LoginPage({ setUser }: LoginPageProps) {
   //vad som skrivs i användarfältet
   const [username, setUsername] = useState("");
   //vad som skrivs i lösenordsfältet
@@ -16,12 +25,11 @@ function LoginPage() {
     event.preventDefault();
     setError("");
 
-    try {
-      await login({
-        username,
-        password,
-      });
 
+    
+    try {
+     const loggedInUser = await login({ username, password});
+      setUser(loggedInUser);
       navigate("/welcome");
     } catch (error) {
       console.error(error);
