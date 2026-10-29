@@ -17,52 +17,31 @@ import type { CartItem, Product } from "./types/product-cart";
 import { createOrder } from "./service/orderService";
 import HomePage from "./pages/HomePage";
 
-
-
-
-
 import { getSession } from "./service/authService";
 import type { User } from "./types/authType";
 
-
-
-
-
 function App() {
+  //hämtar användardata från backend, returnerar null om ej inloggad,
+  const [user, setUser] = useState<User | null>(null);
 
+  // sätter checkingSession till true för att indikera att vi kollar om användaren är inloggad
+  const [checkingSession, setCheckingSession] = useState(true);
 
-//hämtar användardata från backend, returnerar null om ej inloggad, 
-const [user, setUser] = useState<User | null>(null);
+  //körs när App startar, sätter användaren till user eller till null vill fel, sedan sätts checkingSession till false så att appen kan renderas
+  useEffect(() => {
+    async function restoreSession() {
+      try {
+        const sessionUser = await getSession();
+        setUser(sessionUser);
+      } catch {
+        setUser(null);
+      } finally {
+        setCheckingSession(false);
+      }
+    }
 
-// sätter checkingSession till true för att indikera att vi kollar om användaren är inloggad
-const [checkingSession, setCheckingSession] =
-useState(true);
-
-
-//körs när App startar, sätter användaren till user eller till null vill fel, sedan sätts checkingSession till false så att appen kan renderas
-useEffect(() => {
-
-
-  async function restoreSession() {
-    try {
-    const sessionUser = await getSession();
-    setUser(sessionUser);
-
-  } catch {
-    setUser(null);
-  }finally {
-    setCheckingSession(false);
-  }
-}
-  
-  restoreSession();
-}, []);
-
-
-  
-
-
-
+    restoreSession();
+  }, []);
 
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const savedCart = sessionStorage.getItem("cart");
@@ -167,7 +146,7 @@ useEffect(() => {
   const { pathname } = useLocation();
 
   if (checkingSession) {
-  return <p>Kontrollerar inloggning...</p>;
+    return <p>Kontrollerar inloggning...</p>;
   }
 
   return (
@@ -190,12 +169,12 @@ useEffect(() => {
         </div>
       )}
       <Routes>
-        
         <Route path="/login" element={<LoginPage setUser={setUser} />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/" element={<HomePage />} />
 
-        <Route element={<ProtectedRoute />}>
+        {/*Skickar användaren från App.sx till ProtectedRoute.tsx*/}
+        <Route element={<ProtectedRoute user={user} />}>
           <Route path="/welcome" element={<WelcomePage />} />
 
           <Route
@@ -216,7 +195,8 @@ useEffect(() => {
             }
           />
 
-          <Route element={<ProtectedAdminRoute />}>
+          {/* Skickar user till ProtectedAdminRoute för att kontrollera adminrollen */}
+          <Route element={<ProtectedAdminRoute user={user} />}>
             <Route path="/Admin" element={<AdminProductPage />} />
             <Route path="/create-product" element={<CreateProductPage />} />
           </Route>
