@@ -502,6 +502,42 @@ button {
   display: none;
 }
 
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #e4dcca;
+  color: #171717;
+  border-top: 1px solid #d9cec7;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  z-index: 1002;
+  box-sizing: border-box;
+}
+
+.cookie-banner p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.footer-cookie {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  color: #171512;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.footer-cookie:hover {
+  color: #c66210;
+}
+
 @media (max-width: 900px) {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -595,6 +631,22 @@ button {
 
   .welcome-page h1 {
     font-size: 36px;
+  }
+
+  .cookie-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cookie-banner .primary-button {
+    width: 100%;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    text-align: center;
   }
 }
 

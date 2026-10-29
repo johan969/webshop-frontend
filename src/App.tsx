@@ -17,52 +17,45 @@ import type { CartItem, Product } from "./types/product-cart";
 import { createOrder } from "./service/orderService";
 import HomePage from "./pages/HomePage";
 
-
-
-
-
 import { getSession } from "./service/authService";
 import type { User } from "./types/authType";
-
-
-
-
+import CookieBanner from "./components/CookieBanner";
 
 function App() {
+  //hämtar användardata från backend, returnerar null om ej inloggad,
+  const [user, setUser] = useState<User | null>(null);
 
+  // sätter checkingSession till true för att indikera att vi kollar om användaren är inloggad
+  const [checkingSession, setCheckingSession] = useState(true);
 
-//hämtar användardata från backend, returnerar null om ej inloggad, 
-const [user, setUser] = useState<User | null>(null);
+  //använder sessionStorage här då det inte gäller autentisering.
+  //dyker då ej upp vid varje siduppdatering under en session
+  const [cookieBanner, setCookieBanner] = useState(
+    () => sessionStorage.getItem("cookieBannerClosed") !== "true",
+  );
 
-// sätter checkingSession till true för att indikera att vi kollar om användaren är inloggad
-const [checkingSession, setCheckingSession] =
-useState(true);
-
-
-//körs när App startar, sätter användaren till user eller till null vill fel, sedan sätts checkingSession till false så att appen kan renderas
-useEffect(() => {
-
-
-  async function restoreSession() {
-    try {
-    const sessionUser = await getSession();
-    setUser(sessionUser);
-
-  } catch {
-    setUser(null);
-  }finally {
-    setCheckingSession(false);
+  function closeCookieBanner() {
+    sessionStorage.setItem("cookieBannerClosed", "true");
+    setCookieBanner(false);
   }
-}
-  
-  restoreSession();
-}, []);
+  function openCookieBanner() {
+    setCookieBanner(true);
+  }
 
-
-  
-
-
-
+  //körs när App startar, sätter användaren till user eller till null vill fel, sedan sätts checkingSession till false så att appen kan renderas
+  useEffect(() => {
+    async function restoreSession() {
+      try {
+        const sessionUser = await getSession();
+        setUser(sessionUser);
+      } catch {
+        setUser(null);
+      } finally {
+        setCheckingSession(false);
+      }
+    }
+    restoreSession();
+  }, []);
 
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const savedCart = sessionStorage.getItem("cart");
@@ -167,7 +160,7 @@ useEffect(() => {
   const { pathname } = useLocation();
 
   if (checkingSession) {
-  return <p>Kontrollerar inloggning...</p>;
+    return <p>Kontrollerar inloggning...</p>;
   }
 
   return (
@@ -190,7 +183,6 @@ useEffect(() => {
         </div>
       )}
       <Routes>
-        
         <Route path="/login" element={<LoginPage setUser={setUser} />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/" element={<HomePage />} />
@@ -224,7 +216,8 @@ useEffect(() => {
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      <Footer />
+      <Footer showCookieInfo={openCookieBanner} />
+      {cookieBanner && <CookieBanner onClose={closeCookieBanner} />}
     </>
   );
 }
