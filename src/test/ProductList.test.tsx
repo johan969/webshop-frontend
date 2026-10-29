@@ -30,6 +30,7 @@ describe('ProductList', () => {
   it('visar ett felmeddelande om produkthämtningen misslyckas', async () => {
     server.use(
       http.get(`*/products`, () => {
+        console.log('Mocking products endpoint to return 500 error');
         return HttpResponse.json(
           { message: 'Internal Server Error' },
           { status: 500 },
