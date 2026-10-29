@@ -187,7 +187,8 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/" element={<HomePage />} />
 
-        <Route element={<ProtectedRoute />}>
+        {/*Skickar användaren från App.sx till ProtectedRoute.tsx*/}
+        <Route element={<ProtectedRoute user={user} />}>
           <Route path="/welcome" element={<WelcomePage />} />
 
           <Route
@@ -208,7 +209,8 @@ function App() {
             }
           />
 
-          <Route element={<ProtectedAdminRoute />}>
+          {/* Skickar user till ProtectedAdminRoute för att kontrollera adminrollen */}
+          <Route element={<ProtectedAdminRoute user={user} />}>
             <Route path="/Admin" element={<AdminProductPage />} />
             <Route path="/create-product" element={<CreateProductPage />} />
           </Route>
