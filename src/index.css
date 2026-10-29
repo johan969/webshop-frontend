@@ -93,6 +93,8 @@ body {
   font-size: 25px;
   font-weight: bold;
   letter-spacing: 2px;
+  text-decoration: none;
+  color: inherit;
 }
 
 .nav {
@@ -547,13 +549,16 @@ button {
 @media (max-width: 600px) {
   .header {
     padding: 16px 12px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
   }
 
-  .nav {
-    display: flex;
-    gap: 10px;
+  .header > .nav {
+    display: none;
   }
   .nav a {
     font-size: 12px;
@@ -561,11 +566,16 @@ button {
 
   .logo {
     font-size: 16px;
+    flex-shrink: 0;
   }
 
   .header-actions {
     margin-left: auto;
     gap: 10px;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    display: flex;
   }
 
   .user-menu {
@@ -574,6 +584,7 @@ button {
 
   .cart-button {
     font-size: 12px;
+    white-space: nowrap;
   }
 
   .cart-dropdown {
@@ -588,15 +599,27 @@ button {
     color: #171512;
     font-size: 18px;
     padding: 0;
+    flex-shrink: 0;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
   }
 
   .mobile-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 20px;
     width: 100%;
-    padding: 20px 0;
+    padding: 20px;
+    background-color: #f4e9e3;
     border: 1px solid #d9cec7;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+    z-index: 1001;
   }
 
   .mobile-nav a,
@@ -617,7 +640,19 @@ button {
     overflow-wrap: anywhere;
   }
 
-  .product-page {
+  .admin-product-page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .admin-product-page-header .primary-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .product-page,
+  .admin-product-page {
     padding: 48px 24px;
   }
 
