@@ -32,14 +32,17 @@ function HomePage() {
         </div>
         <div className="home-page-about">
           <h2>Bli kund hos oss</h2>
-          <p>
-            För att kunna se vårt sortiment och handla behöver du vara inloggad.{" "}
+          <div>
+            <p>
+              För att kunna se vårt sortiment och handla behöver du vara
+              inloggad.{" "}
+            </p>
             <p>
               <Link to="/login">Logga in</Link> eller{" "}
               <Link to="/register">skapa konto</Link> för att utforska vårt
               sortiment och börja handla.
             </p>
-          </p>
+          </div>
         </div>
       </main>
     </>

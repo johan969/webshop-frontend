@@ -19,6 +19,7 @@ import HomePage from "./pages/HomePage";
 
 import { getSession } from "./service/authService";
 import type { User } from "./types/authType";
+import CookieBanner from "./components/CookieBanner";
 
 function App() {
   //hämtar användardata från backend, returnerar null om ej inloggad,
@@ -26,6 +27,20 @@ function App() {
 
   // sätter checkingSession till true för att indikera att vi kollar om användaren är inloggad
   const [checkingSession, setCheckingSession] = useState(true);
+
+  //använder sessionStorage här då det inte gäller autentisering.
+  //dyker då ej upp vid varje siduppdatering under en session
+  const [cookieBanner, setCookieBanner] = useState(
+    () => sessionStorage.getItem("cookieBannerClosed") !== "true",
+  );
+
+  function closeCookieBanner() {
+    sessionStorage.setItem("cookieBannerClosed", "true");
+    setCookieBanner(false);
+  }
+  function openCookieBanner() {
+    setCookieBanner(true);
+  }
 
   //körs när App startar, sätter användaren till user eller till null vill fel, sedan sätts checkingSession till false så att appen kan renderas
   useEffect(() => {
@@ -39,7 +54,6 @@ function App() {
         setCheckingSession(false);
       }
     }
-
     restoreSession();
   }, []);
 
@@ -204,7 +218,8 @@ function App() {
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      <Footer />
+      <Footer showCookieInfo={openCookieBanner} />
+      {cookieBanner && <CookieBanner onClose={closeCookieBanner} />}
     </>
   );
 }
