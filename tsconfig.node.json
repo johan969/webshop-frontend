@@ -8,9 +8,10 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
+    "types": ["node"],
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts", "playwright.config.ts"]
 }
