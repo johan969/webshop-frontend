@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect } from "vitest";
 import { http, HttpResponse } from "msw";
-import { server } from "./mocks/server";
+import { server } from "../mocks/server";
 import App from "../App";
 
 // Grupperar tester som kontrollerar att App återställer användarens session
